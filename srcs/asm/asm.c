@@ -6,7 +6,7 @@
 /*   By: chrhuang <chrhuang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 14:32:59 by lgaultie          #+#    #+#             */
-/*   Updated: 2020/02/01 01:15:54 by chrhuang         ###   ########.fr       */
+/*   Updated: 2020/02/02 09:49:49 by chrhuang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	open_file(t_assembler *as, char *argv)
 {
-	as->s_fd = open(argv, O_RDONLY);
+	as->s_fd = open(argv, O_RDONLY | O_NOFOLLOW);
 	return (as->s_fd);
 }
 
@@ -43,7 +43,6 @@ static int	assembler(t_assembler *as, char **argv, int i, unsigned int flag)
 	read_function(as);
 	close(as->s_fd);
 	create_cor(as);
-	print_advices(as);
 	free_asm(as);
 	return (SUCCESS);
 }
@@ -65,7 +64,6 @@ int			main(int argc, char **argv)
 		if (argv[i][0] == '-')
 		{
 			flag_on = 1;
-			++i;
 			continue;
 		}
 		if (check_file_type(argv[i]) == 0 \
